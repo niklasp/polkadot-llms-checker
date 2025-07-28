@@ -1,0 +1,42 @@
+[
+  {
+    "id": "papi",
+    "name": "Papi",
+    "url": "https://papi.how/llms.txt",
+    "status": "success",
+    "lastChecked": "2025-07-28T15:59:42.316Z",
+    "responseTime": 78
+  },
+  {
+    "id": "dedot",
+    "name": "Dedot",
+    "url": "https://docs.dedot.dev/llms.txt",
+    "status": "success",
+    "lastChecked": "2025-07-28T15:59:42.467Z",
+    "responseTime": 229
+  },
+  {
+    "id": "ink",
+    "name": "Ink",
+    "url": "https://use.ink/llms.txt",
+    "status": "success",
+    "lastChecked": "2025-07-28T15:59:42.316Z",
+    "responseTime": 78
+  },
+  {
+    "id": "substrate",
+    "name": "Substrate",
+    "url": "https://docs.substrate.io/llms.txt",
+    "status": "success",
+    "lastChecked": "2025-07-28T15:59:42.485Z",
+    "responseTime": 247
+  },
+  {
+    "id": "polkadot",
+    "name": "Polkadot Dev Docs",
+    "url": "https://docs.polkadot.com/llms.txt",
+    "status": "success",
+    "lastChecked": "2025-07-28T15:59:42.292Z",
+    "responseTime": 54
+  }
+]

@@ -1,13 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getUrls, saveUrlCheck, initializeUrls } from "@/lib/db";
+import { getUrls, saveUrlChecks, initializeUrls } from "@/lib/db";
 import { checkUrl } from "@/lib/url-checker";
 import type { UrlCheck } from "@/lib/types";
+import { revalidatePath } from "next/cache";
 
 export async function GET(request: NextRequest) {
   try {
-    // Verify this is a legitimate cron request
+    // Simple authorization check (optional)
     const authHeader = request.headers.get("authorization");
-    if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    const cronSecret = process.env.CRON_SECRET;
+
+    if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -47,7 +50,7 @@ export async function GET(request: NextRequest) {
       })
     );
 
-    // Save all successful checks
+    // Process results
     const checks: UrlCheck[] = [];
     results.forEach((result) => {
       if (result.status === "fulfilled") {
@@ -55,10 +58,11 @@ export async function GET(request: NextRequest) {
       }
     });
 
-    // Save checks to database
-    for (const check of checks) {
-      await saveUrlCheck(check);
-    }
+    // Save all checks to file
+    await saveUrlChecks(checks);
+
+    // Revalidate the main page cache
+    revalidatePath("/");
 
     const successCount = checks.filter((c) => c.status === "success").length;
     const errorCount = checks.filter((c) => c.status === "error").length;

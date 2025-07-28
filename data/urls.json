@@ -1,0 +1,27 @@
+[
+  {
+    "id": "papi",
+    "name": "Papi",
+    "url": "https://papi.how/llms.txt"
+  },
+  {
+    "id": "dedot",
+    "name": "Dedot",
+    "url": "https://docs.dedot.dev/llms.txt"
+  },
+  {
+    "id": "ink",
+    "name": "Ink",
+    "url": "https://use.ink/llms.txt"
+  },
+  {
+    "id": "substrate",
+    "name": "Substrate",
+    "url": "https://docs.substrate.io/llms.txt"
+  },
+  {
+    "id": "polkadot",
+    "name": "Polkadot Dev Docs",
+    "url": "https://docs.polkadot.com/llms.txt"
+  }
+]

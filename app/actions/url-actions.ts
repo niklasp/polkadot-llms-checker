@@ -2,9 +2,16 @@
 
 import { createSafeActionClient } from "next-safe-action";
 import { z } from "zod";
+import { revalidatePath } from "next/cache";
 import type { ActionResponse } from "@/lib/actions-types";
 import type { UrlCheck } from "@/lib/types";
-import { getUrls, getUrlChecks, saveUrlCheck, initializeUrls } from "@/lib/db";
+import {
+  getUrls,
+  getUrlChecks,
+  saveUrlCheck,
+  saveUrlChecks,
+  initializeUrls,
+} from "@/lib/db";
 import { checkUrl } from "@/lib/url-checker";
 
 const safeAction = createSafeActionClient();
@@ -59,6 +66,9 @@ export const checkSingleUrlAction = safeAction
 
       await saveUrlCheck(check);
 
+      // Revalidate the page to show updated data
+      revalidatePath("/");
+
       return { success: true, data: check };
     } catch (error) {
       return {
@@ -100,9 +110,10 @@ export const checkAllUrlsAction = safeAction.action(
       });
 
       // Save all checks
-      for (const check of checks) {
-        await saveUrlCheck(check);
-      }
+      await saveUrlChecks(checks);
+
+      // Revalidate the page to show updated data
+      revalidatePath("/");
 
       return { success: true, data: checks };
     } catch (error) {

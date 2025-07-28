@@ -28,19 +28,14 @@ import { Badge } from "@/components/ui/badge";
 import { RefreshCw, ExternalLink } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import type { UrlCheck } from "@/lib/types";
-import { checkSingleUrlAction } from "@/app/actions/url-actions";
+import { checkAllUrlsAction } from "@/app/actions/url-actions";
+import { useRouter } from "next/navigation";
 
 interface UrlChecksTableProps {
   data: UrlCheck[];
-  onRefresh: () => void;
-  isRefreshing: boolean;
 }
 
-export function UrlChecksTable({
-  data,
-  onRefresh,
-  isRefreshing,
-}: UrlChecksTableProps) {
+export function UrlChecksTable({ data }: UrlChecksTableProps) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -48,13 +43,19 @@ export function UrlChecksTable({
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
+  const [isRefreshing, setIsRefreshing] = React.useState(false);
+  const router = useRouter();
 
-  const handleSingleCheck = async (id: string) => {
+  const handleRefreshAll = async () => {
+    setIsRefreshing(true);
     try {
-      await checkSingleUrlAction({ id });
-      onRefresh();
+      await checkAllUrlsAction();
+      // Refresh the page to get updated data
+      router.refresh();
     } catch (error) {
-      console.error("Failed to check URL:", error);
+      console.error("Failed to refresh checks:", error);
+    } finally {
+      setIsRefreshing(false);
     }
   };
 
@@ -111,14 +112,6 @@ export function UrlChecksTable({
               {responseTime && (
                 <span className="text-xs text-gray-500">{responseTime}ms</span>
               )}
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => handleSingleCheck(row.original.id)}
-                className="h-6 w-6 p-0"
-              >
-                <RefreshCw className="h-3 w-3" />
-              </Button>
             </div>
             <div className="text-xs text-gray-500">
               {formatDistanceToNow(lastChecked, { addSuffix: true })}
@@ -164,7 +157,11 @@ export function UrlChecksTable({
           }
           className="max-w-sm"
         />
-        <Button onClick={onRefresh} disabled={isRefreshing} variant="outline">
+        <Button
+          onClick={handleRefreshAll}
+          disabled={isRefreshing}
+          variant="outline"
+        >
           <RefreshCw
             className={`h-4 w-4 mr-2 ${isRefreshing ? "animate-spin" : ""}`}
           />
