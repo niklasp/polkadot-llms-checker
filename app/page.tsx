@@ -73,7 +73,8 @@ export default function Home() {
         </h1>
         <p className="text-gray-600">
           Monitor the availability of llms.txt files across different
-          documentation sites. Checks run automatically every hour.
+          documentation sites. Checks run automatically every day at midnight
+          UTC.
         </p>
       </div>
 
@@ -86,7 +87,7 @@ export default function Home() {
               You&apos;re seeing demo data because Vercel KV storage isn&apos;t
               configured. The &quot;Check All&quot; button will perform real
               checks, or set up KV storage for full functionality with automated
-              hourly checks.
+              daily checks.
             </p>
           </div>
         </div>
@@ -100,9 +101,9 @@ export default function Home() {
 
       <div className="mt-8 text-sm text-gray-500">
         <p>
-          The system automatically checks these URLs every hour using Vercel
-          Cron Jobs. You can also manually trigger checks using the buttons
-          above.
+          The system automatically checks these URLs daily at midnight UTC using
+          Vercel Cron Jobs. You can also manually trigger checks using the
+          buttons above.
         </p>
       </div>
     </div>

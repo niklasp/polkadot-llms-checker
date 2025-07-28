@@ -123,21 +123,21 @@ After adding environment variables, trigger a new deployment:
 
 ## Step 6: Verify Cron Schedule
 
-The cron job is configured in `vercel.json` to run every hour:
+The cron job is configured in `vercel.json` to run daily at midnight UTC:
 
 ```json
 {
   "crons": [
     {
       "path": "/api/cron/check-urls",
-      "schedule": "0 * * * *"
+      "schedule": "0 0 * * *"
     }
   ]
 }
 ```
 
 - **Check cron logs:** Vercel Dashboard → Functions → Cron
-- **First run:** Wait up to 1 hour, or trigger manually
+- **First run:** Will run daily at midnight UTC, or trigger manually
 
 ## Troubleshooting
 
@@ -159,7 +159,7 @@ The cron job is configured in `vercel.json` to run every hour:
 
 ### Issue: URLs not updating
 
-**Symptoms:** Manual checks work, but hourly updates don't happen **Solutions:**
+**Symptoms:** Manual checks work, but daily updates don't happen **Solutions:**
 
 1. Test cron endpoint manually (Step 5)
 2. Check Vercel function logs for errors
@@ -175,8 +175,8 @@ The cron job is configured in `vercel.json` to run every hour:
 
 ## Expected Functionality After Deployment
 
-✅ **Hourly automated checks** of all URLs ✅ **Real-time status updates**
-(green/red badges) ✅ **Response time tracking** ✅ **Manual refresh
+✅ **Daily automated checks** of all URLs (midnight UTC) ✅ **Real-time status
+updates** (green/red badges) ✅ **Response time tracking** ✅ **Manual refresh
 capabilities** ✅ **Search and filter functionality** ✅ **Persistent data
 storage**
 
